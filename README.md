@@ -15,9 +15,22 @@ repo name; instead this repo keeps a local cache and references those using the 
 
 ### Populating local cache of actions
 
+Approach is to directly commit the actions repo, but deleting its .git repo folder so that the repo src artifacts can be commited into this repo
+(without deleting the .git folder, git will insist on that folder to become a git submodule; to checkout a submodule, the actions repo would again need to be public...)
+
 ```bash
-git submodule add https://github.com/microsoft/powerplatform-actions.git .github/pp-actions
+git clone https://github.com/microsoft/powerplatform-actions.git ./microsoft/powerplatform/actions
+rm -Recurse -Force ./microsoft/powerplatform/actions/.git
+rm .\microsoft\powerplatform\actions\.gitignore
+git add ./microsoft/powerplatform/actions
 ```
 
 ## Change action names:
 
+Instead of using the actions' repo path, convert it to point to the actions in the local repo:
+
+```bash
+    - name: Test who-am-i action
+      # uses: microsoft/powerplatform/actions/who-am-i
+      uses: ./microsoft/powerplatform/actions/who-am-i
+```

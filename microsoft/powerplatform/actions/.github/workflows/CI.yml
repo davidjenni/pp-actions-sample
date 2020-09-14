@@ -18,17 +18,27 @@ jobs:
       with:
         lfs: true
 
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v1.4.1
+      with:
+        node-version: 12.x
+
+    - name: Build and test
+      run: |
+        npm i
+        npm run ci
+      env:
+        AZ_DevOps_Read_PAT: ${{ secrets.AZ_DevOps_Read_PAT }}
+
     - name: Test who-am-i action
-      # uses: microsoft/powerplatform/actions/who-am-i
-      uses: ./microsoft/powerplatform/actions/who-am-i
+      uses: ./who-am-i
       with:
         environment-url: 'https://davidjenD365-1.crm.dynamics.com'
         user-name: 'davidjen@davidjenD365.onmicrosoft.com'
         password-secret: ${{ secrets.password }}
 
     - name: Test export-solution action
-      # uses: microsoft/powerplatform/actions/export-solution
-      uses: ./microsoft/powerplatform/actions/export-solution
+      uses: ./export-solution
       with:
         environment-url: 'https://davidjenD365-1.crm.dynamics.com'
         user-name: 'davidjen@davidjenD365.onmicrosoft.com'
@@ -38,8 +48,7 @@ jobs:
         working-directory: 'out/CI'
 
     - name: Test unpack-solution action
-      # uses: microsoft/powerplatform/actions/unpack-solution
-      uses: ./microsoft/powerplatform/actions/unpack-solution
+      uses: ./unpack-solution
       with:
         solution-input-file: 'out/CI/solution1.zip'
         solution-target-folder: 'out/CI/solution one'
