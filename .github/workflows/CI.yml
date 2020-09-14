@@ -15,18 +15,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      # with:
-        # lfs: true
 
     - name: Test who-am-i action
-      uses: ./who-am-i
+      # uses: microsoft/powerplatform/action/who-am-i
+      uses: ./.github/pp-actions/who-am-i
       with:
         environment-url: 'https://davidjenD365-1.crm.dynamics.com'
         user-name: 'davidjen@davidjenD365.onmicrosoft.com'
         password-secret: ${{ secrets.password }}
 
     - name: Test export-solution action
-      uses: ./export-solution
+      # uses: microsoft/powerplatform/action/export-solution
+      uses: ./.github/pp-actions/export-solution
       with:
         environment-url: 'https://davidjenD365-1.crm.dynamics.com'
         user-name: 'davidjen@davidjenD365.onmicrosoft.com'
@@ -36,7 +36,8 @@ jobs:
         working-directory: 'out/CI'
 
     - name: Test unpack-solution action
-      uses: ./unpack-solution
+      # uses: microsoft/powerplatform/action/unpack-solution
+      uses: ./.github/pp-actions/unpack-solution
       with:
         solution-input-file: 'out/CI/solution1.zip'
         solution-target-folder: 'out/CI/solution one'
