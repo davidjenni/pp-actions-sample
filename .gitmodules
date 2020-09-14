@@ -1,0 +1,3 @@
+[submodule ".github/pp-actions"]
+	path = .github/pp-actions
+	url = https://github.com/microsoft/powerplatform-actions.git
