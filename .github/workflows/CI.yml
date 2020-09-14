@@ -15,6 +15,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      # when using repo-locally cached actions as submodule, ensure those are checked out as well:
+      with:
+        submodules: recursive
 
     - name: Test who-am-i action
       # uses: microsoft/powerplatform/action/who-am-i
