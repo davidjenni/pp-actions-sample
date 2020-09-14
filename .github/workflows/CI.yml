@@ -18,7 +18,7 @@ jobs:
       with:
         lfs: true
 
-    - name: Test who-am-i action
+    - name: who-am-i action
       # uses: microsoft/powerplatform/actions/who-am-i
       uses: ./microsoft/powerplatform/actions/who-am-i
       with:
@@ -26,7 +26,7 @@ jobs:
         user-name: 'davidjen@davidjenD365.onmicrosoft.com'
         password-secret: ${{ secrets.password }}
 
-    - name: Test export-solution action
+    - name: export-solution action
       # uses: microsoft/powerplatform/actions/export-solution
       uses: ./microsoft/powerplatform/actions/export-solution
       with:
@@ -37,7 +37,7 @@ jobs:
         solution-output-file: 'solution1.zip'
         working-directory: 'out/CI'
 
-    - name: Test unpack-solution action
+    - name: unpack-solution action
       # uses: microsoft/powerplatform/actions/unpack-solution
       uses: ./microsoft/powerplatform/actions/unpack-solution
       with:

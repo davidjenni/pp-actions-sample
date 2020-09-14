@@ -25,7 +25,7 @@ rm .\microsoft\powerplatform\actions\.gitignore
 git add ./microsoft/powerplatform/actions
 ```
 
-## Change action names:
+## Change action names
 
 Instead of using the actions' repo path, convert it to point to the actions in the local repo:
 
@@ -34,3 +34,6 @@ Instead of using the actions' repo path, convert it to point to the actions in t
       # uses: microsoft/powerplatform/actions/who-am-i
       uses: ./microsoft/powerplatform/actions/who-am-i
 ```
+
+Once the powerplatform/actions repo becomes publicly visible, the local cached copy is obsolete and can be deleted.
+Change the ```uses:``` lines to just the public repo naming scheme (drop the ```./``` prefix)
