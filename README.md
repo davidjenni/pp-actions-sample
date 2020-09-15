@@ -8,15 +8,19 @@ The workflow in .github/workflows/CI.yml references a PowerPlatform password, ma
 
 Create a secret named 'PASSWORD' in your repo, under 'Settings' | 'Secrets' | 'New secret'
 
-## Referencing microsoft/powerplatform/* actions
+## Referencing microsoft/powerplatform-actions
 
-Currently, the PowerPlatform GH actions are not yet publicly visible; hence they cannot be referenced via their global
-repo name; instead this repo keeps a local cache and references those using the [local action reference syntax](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#example-using-action-in-the-same-repository-as-the-workflow)
+Currently, the [PowerPlatform GH actions](https://github.com/microsoft/powerplatform-actions)
+are not yet publicly visible; hence they cannot be referenced via their global repo name;
+instead this repo keeps a local cache and references those using the
+[local action reference syntax](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#example-using-action-in-the-same-repository-as-the-workflow)
 
 ### Populating local cache of actions
 
-Approach is to directly commit the actions repo, but deleting its .git repo folder so that the repo src artifacts can be commited into this repo
-(without deleting the .git folder, git will insist on that folder to become a git submodule; to checkout a submodule, the actions repo would again need to be public...)
+Current workaround is to directly clone and commit the actions repo into the repo that wants to author flows with those actions,
+but deleting its .git repo folder so that the repo src artifacts can be commited into this repo
+(without deleting the .git folder, git will insist on that folder to become a git submodule;
+to checkout a submodule, the actions repo would again need to be public...)
 
 ```bash
 git clone --depth 1 --branch v0.1.2-beta https://github.com/microsoft/powerplatform-actions.git ./microsoft/powerplatform-actions
