@@ -19,10 +19,10 @@ Approach is to directly commit the actions repo, but deleting its .git repo fold
 (without deleting the .git folder, git will insist on that folder to become a git submodule; to checkout a submodule, the actions repo would again need to be public...)
 
 ```bash
-git clone https://github.com/microsoft/powerplatform-actions.git ./microsoft/powerplatform/actions
-rm -Recurse -Force ./microsoft/powerplatform/actions/.git
-rm .\microsoft\powerplatform\actions\.gitignore
-git add ./microsoft/powerplatform/actions
+git clone --depth 1 --branch v0.1.2-beta https://github.com/microsoft/powerplatform-actions.git ./microsoft/powerplatform-actions
+rm -Recurse -Force .\microsoft\powerplatform-actions\.git
+rm .\microsoft\powerplatform-actions\.gitignore
+git add ./microsoft/powerplatform-actions
 ```
 
 ## Change action names
@@ -31,8 +31,20 @@ Instead of using the actions' repo path, convert it to point to the actions in t
 
 ```bash
     - name: Test who-am-i action
-      # uses: microsoft/powerplatform/actions/who-am-i
+      # uses: microsoft/powerplatform/actions/who-am-i@v0
       uses: ./microsoft/powerplatform/actions/who-am-i
+```
+
+To update local cached copy with changes from powerplatform-actions repo:
+
+```bash
+# remove old cache:
+rm -Recurse -Force ./microsoft/powerplatform-actions/
+# refill cache with same steps as before:
+git clone --depth 1 --branch v0.1.2-beta https://github.com/microsoft/powerplatform-actions.git ./microsoft/powerplatform-actions
+rm -Recurse -Force .\microsoft\powerplatform-actions\.git
+rm .\microsoft\powerplatform-actions\.gitignore
+git add ./microsoft/powerplatform-actions
 ```
 
 Once the powerplatform/actions repo becomes publicly visible, the local cached copy is obsolete and can be deleted.

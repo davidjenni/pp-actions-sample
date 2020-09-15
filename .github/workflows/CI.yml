@@ -19,16 +19,16 @@ jobs:
         lfs: true
 
     - name: who-am-i action
-      # uses: microsoft/powerplatform/actions/who-am-i
-      uses: ./microsoft/powerplatform/actions/who-am-i
+      # uses: microsoft/powerplatform-actions/who-am-i@v0
+      uses: ./microsoft/powerplatform-actions/who-am-i
       with:
         environment-url: 'https://davidjenD365-1.crm.dynamics.com'
         user-name: 'davidjen@davidjenD365.onmicrosoft.com'
         password-secret: ${{ secrets.password }}
 
     - name: export-solution action
-      # uses: microsoft/powerplatform/actions/export-solution
-      uses: ./microsoft/powerplatform/actions/export-solution
+      # uses: microsoft/powerplatform-actions/export-solution@v0
+      uses: ./microsoft/powerplatform-actions/export-solution
       with:
         environment-url: 'https://davidjenD365-1.crm.dynamics.com'
         user-name: 'davidjen@davidjenD365.onmicrosoft.com'
@@ -38,10 +38,10 @@ jobs:
         working-directory: 'out/CI'
 
     - name: unpack-solution action
-      # uses: microsoft/powerplatform/actions/unpack-solution
-      uses: ./microsoft/powerplatform/actions/unpack-solution
+      # uses: microsoft/powerplatform-actions/unpack-solution@v0
+      uses: ./microsoft/powerplatform-actions/unpack-solution
       with:
-        solution-input-file: 'out/CI/solution1.zip'
-        solution-target-folder: 'out/CI/solution one'
+        solution-file: 'out/CI/solution1.zip'
+        solution-folder: 'out/CI/solution one'
         solution-type: 'Unmanaged'
         overwrite-files: true
