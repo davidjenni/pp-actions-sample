@@ -33,15 +33,15 @@ jobs:
         environment-url: 'https://user9-dev.crm.dynamics.com/'
         user-name: 'user9@wrkdevops.onmicrosoft.com'
         password-secret: ${{ secrets.password }}
-        solution-name: COVIDResponseApp
-        solution-output-file: 'COVIDResponseApp.zip'
+        solution-name: Covid19Screening
+        solution-output-file: 'Covid19Screening.zip'
         working-directory: 'out/CI'
 
     - name: unpack-solution action
       # uses: microsoft/powerplatform-actions/unpack-solution@v0
       uses: ./microsoft/powerplatform-actions/unpack-solution
       with:
-        solution-file: 'out/CI/COVIDResponse.zip'
+        solution-file: 'out/CI/Covid19Screening.zip'
         solution-folder: 'out/CI/solution one'
         solution-type: 'Unmanaged'
         overwrite-files: true
@@ -51,7 +51,7 @@ jobs:
       uses: ./microsoft/powerplatform-actions/pack-solution
       with:
         solution-folder: 'solutions/COVIDResponse'
-        solution-file: 'out/CI/COVIDResponseApp.zip'
+        solution-file: 'out/CI/Covid19Screening.zip'
         solution-type: 'Unmanaged'
 
     - name: import-solution action
@@ -61,5 +61,5 @@ jobs:
         environment-url: 'https://user9-build.crm.dynamics.com/'
         user-name: 'user9@wrkdevops.onmicrosoft.com'
         password-secret: ${{ secrets.password }}
-        solution-file: 'out/CI/COVIDResponseApp.zip'
+        solution-file: 'out/CI/Covid19Screening.zip'
         force-overwrite: true
