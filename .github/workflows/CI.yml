@@ -63,7 +63,8 @@ jobs:
         solution-file: 'out/CI/solutions/Covid19Screening.zip'
         force-overwrite: true
 
-    - run: |
-        cmd  /c "dir /s /b out/CI/solutions/Covid19Screening"
+    - name: List Covid19Screening solution
+      run: |
+        cmd /c "dir /s /b out\CI\solutions\Covid19Screening"
 
 
