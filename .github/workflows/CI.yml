@@ -66,7 +66,7 @@ jobs:
         solution-type: 'Unmanaged'
         overwrite-files: true
 
- - name: pack-solution action
+    - name: pack-solution action
       # uses: microsoft/powerplatform-actions/pack-solution@v0
       uses: ./microsoft/powerplatform-actions/pack-solution
       with:
