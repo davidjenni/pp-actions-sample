@@ -1,4 +1,4 @@
-# CI test workflow for PRs and merges to master
+# CI workflow for PRs and merges to master and deploys to downstream test gate 1 Power Platform Environemtn
 name: CI
 
 on:
@@ -22,44 +22,44 @@ jobs:
       # uses: microsoft/powerplatform-actions/who-am-i@v0
       uses: ./microsoft/powerplatform-actions/who-am-i
       with:
-        environment-url: 'https://user8-build.crm.dynamics.com/'
-        user-name: 'user8@wrkdevops.onmicrosoft.com'
+        environment-url: 'https://user9-dev.crm.dynamics.com/'
+        user-name: 'user9@wrkdevops.onmicrosoft.com'
         password-secret: ${{ secrets.password }}
-
-    - name: pack-solution action
-      # uses: microsoft/powerplatform-actions/pack-solution@v0
-      uses: ./microsoft/powerplatform-actions/pack-solution
-      with:
-        solution-folder: 'solutions/emptySolution'
-        solution-file: 'out/CI/emptySolution.zip'
-        solution-type: 'Unmanaged'
-
-    - name: import-solution action
-      # uses: microsoft/powerplatform-actions/import-solution@v0
-      uses: ./microsoft/powerplatform-actions/import-solution
-      with:
-        environment-url: 'https://user8-build.crm.dynamics.com/'
-        user-name: 'user8@wrkdevops.onmicrosoft.com'
-        password-secret: ${{ secrets.password }}
-        solution-file: 'out/CI/emptySolution.zip'
-        force-overwrite: true
 
     - name: export-solution action
       # uses: microsoft/powerplatform-actions/export-solution@v0
       uses: ./microsoft/powerplatform-actions/export-solution
       with:
-        environment-url: 'https://user8-build.crm.dynamics.com/'
-        user-name: 'user8@wrkdevops.onmicrosoft.com'
+        environment-url: 'https://user9-dev.crm.dynamics.com/'
+        user-name: 'user9@wrkdevops.onmicrosoft.com'
         password-secret: ${{ secrets.password }}
-        solution-name: emptySolution
-        solution-output-file: 'solution1.zip'
+        solution-name: COVIDResponseApp
+        solution-output-file: 'COVIDResponseApp.zip'
         working-directory: 'out/CI'
 
     - name: unpack-solution action
       # uses: microsoft/powerplatform-actions/unpack-solution@v0
       uses: ./microsoft/powerplatform-actions/unpack-solution
       with:
-        solution-file: 'out/CI/solution1.zip'
+        solution-file: 'out/CI/COVIDResponse.zip'
         solution-folder: 'out/CI/solution one'
         solution-type: 'Unmanaged'
         overwrite-files: true
+
+    - name: pack-solution action
+      # uses: microsoft/powerplatform-actions/pack-solution@v0
+      uses: ./microsoft/powerplatform-actions/pack-solution
+      with:
+        solution-folder: 'solutions/COVIDResponse'
+        solution-file: 'out/CI/COVIDResponseApp.zip'
+        solution-type: 'Unmanaged'
+
+    - name: import-solution action
+      # uses: microsoft/powerplatform-actions/import-solution@v0
+      uses: ./microsoft/powerplatform-actions/import-solution
+      with:
+        environment-url: 'https://user9-build.crm.dynamics.com/'
+        user-name: 'user9@wrkdevops.onmicrosoft.com'
+        password-secret: ${{ secrets.password }}
+        solution-file: 'out/CI/COVIDResponseApp.zip'
+        force-overwrite: true
