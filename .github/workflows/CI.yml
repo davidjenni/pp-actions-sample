@@ -1,4 +1,4 @@
-# CI workflow for PRs and merges to master
+# CI test workflow for PRs and merges to master
 name: CI
 
 on:
