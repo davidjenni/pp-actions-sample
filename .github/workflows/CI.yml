@@ -50,7 +50,7 @@ jobs:
       uses: ./microsoft/powerplatform-actions/pack-solution
       with:
         solution-folder: 'out/CI/solutions/Covid19Screening'
-        solution-file: 'out/CI/solution/Covid19Screening.zip'
+        solution-file: 'out/CI/solutions/Covid19Screening.zip'
         solution-type: 'Unmanaged'
 
     - name: import-solution action
