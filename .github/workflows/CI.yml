@@ -69,14 +69,15 @@ jobs:
 
     - name: Create PR branch
       run: |
-        rm -Recurse -Force .\solutions\Covid19Screening
-        Copy-Item -Path .\out\CI\solutions\Covid19Screening\ -Destination .\solutions\Covid19Screening\ -Recurse -Force
-        cmd /c "dir /s /ogen /b .\solutions\Covid19Screening"
         $branch = (Get-Date -Format "yyyyMMdd-HHmm")
         git config --local user.email "davidjen@davidjend365.onmicrosoft.com"
         git config --local user.name "David"
         git checkout -b covid19-$($branch)
-        git add -v .\solutions\Covid19Screening
+        echo "new branch"
+        rm -Recurse -Force .\solutions\Covid19Screening -ErrorAction SilentlyContinue
+        Copy-Item -Path .\out\CI\solutions\Covid19Screening\ -Destination .\solutions\Covid19Screening\ -Recurse -Force
+        cmd /c "dir /s /ogen /b .\solutions\Covid19Screening"
+        git add .\solutions\Covid19Screening
         git status
-        git commit -m"exported solution $($branch)"
+        git commit -m"PR for exported solution $($branch)"
         git push origin $branch
