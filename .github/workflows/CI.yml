@@ -76,6 +76,7 @@ jobs:
         $branch = (Get-Date -Format "yyyyMMdd-HHmm")
         git config --local user.email "davidjen@davidjend365.onmicrosoft.com"
         git config --local user.name "David"
+        git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $([Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes("user:${{ secrets.PR_TOKEN }}")))"
         git checkout -b covid19-$($branch)
         echo "refreshing checked in solution..."
         rm -Recurse -Force .\solutions\Covid19Screening -ErrorAction SilentlyContinue
