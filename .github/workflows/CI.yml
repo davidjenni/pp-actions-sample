@@ -72,6 +72,8 @@ jobs:
         rm -Recurse -Force .\solutions\Covid19Screening
         Copy-Item -Path .\out\CI\solutions\Covid19Screening\ -Destination .\solutions\Covid19Screening\ -Recurse -Force
         $branch = (Get-Date -Format "yyyyMMdd-HHmm")
+        git config --local user.email "davidjen@davidjend365.onmicrosoft.com"
+        git config --local user.name "David"
         git checkout -b covid19-$($branch)
         git add .\solutions\Covid19Screening
         git commit -m"exported solution $($branch)"
