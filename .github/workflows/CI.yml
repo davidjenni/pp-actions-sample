@@ -69,15 +69,19 @@ jobs:
 
     - name: Create PR branch
       run: |
+        mkdir out\staging
+        pushd out\staging
+        git clone https://github.com/davidjenni/pp-actions-sample.git sample
+        cd sample
         $branch = (Get-Date -Format "yyyyMMdd-HHmm")
         git config --local user.email "davidjen@davidjend365.onmicrosoft.com"
         git config --local user.name "David"
         git checkout -b covid19-$($branch)
-        echo "new branch"
+        echo "refreshing checked in solution..."
         rm -Recurse -Force .\solutions\Covid19Screening -ErrorAction SilentlyContinue
         Copy-Item -Path .\out\CI\solutions\Covid19Screening\ -Destination .\solutions\Covid19Screening\ -Recurse -Force
-        cmd /c "dir /s /ogen /b .\solutions\Covid19Screening"
         git add .\solutions\Covid19Screening
         git status
         git commit -m"PR for exported solution $($branch)"
         git push origin $branch
+        popd
