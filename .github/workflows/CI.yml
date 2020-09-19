@@ -67,4 +67,12 @@ jobs:
       run: |
         cmd /c "dir /s /ogen /b out\CI\solutions\Covid19Screening"
 
-
+    - name: Create PR branch
+      run: |
+        rm -Recurse -Force .\solutions\Covid19Screening
+        Copy-Item -Path .\out\CI\solutions\Covid19Screening\ -Destination .\solutions\Covid19Screening\ -Recurse -Force
+        $branch = (Get-Date -Format "yyyyMMdd-HHmm")
+        git checkout -b covid19-$($branch)
+        git add .\solutions\Covid19Screening
+        git commit -m"exported solution $($branch)"
+        git push origin $branch
