@@ -27,4 +27,4 @@ jobs:
         run: echo actor = $GITHUB_ACTOR
 
       - name: URL
-        run: echo url = $GITHUB_SERVER_URL
+        run: echo url = $(git remote -v)
