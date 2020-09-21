@@ -23,7 +23,7 @@ but deleting its .git repo folder so that the repo src artifacts can be commited
 to checkout a submodule, the actions repo would again need to be public...)
 
 ```bash
-git clone --depth 1 --branch v0.1.3-beta https://github.com/microsoft/powerplatform-actions.git ./microsoft/powerplatform-actions
+git clone --depth 1 --branch v0.1.5-beta https://github.com/microsoft/powerplatform-actions.git ./microsoft/powerplatform-actions
 rm -Recurse -Force .\microsoft\powerplatform-actions\.git
 rm .\microsoft\powerplatform-actions\.gitignore
 git add ./microsoft/powerplatform-actions
@@ -45,7 +45,7 @@ To update local cached copy with changes from powerplatform-actions repo:
 # remove old cache:
 rm -Recurse -Force ./microsoft/powerplatform-actions/
 # refill cache with same steps as before:
-git clone --depth 1 --branch v0.1.3-beta https://github.com/microsoft/powerplatform-actions.git ./microsoft/powerplatform-actions
+git clone --depth 1 --branch v0.1.5-beta https://github.com/microsoft/powerplatform-actions.git ./microsoft/powerplatform-actions
 rm -Recurse -Force .\microsoft\powerplatform-actions\.git
 rm .\microsoft\powerplatform-actions\.gitignore
 git add ./microsoft/powerplatform-actions
