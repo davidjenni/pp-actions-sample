@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CanvasApp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>cr08b_covidscreeningappv2_b295b</Name>
+  <AppVersion>2020-09-16T17:32:08Z</AppVersion>
+  <Status>Ready</Status>
+  <CreatedByClientVersion>3.20071.23.0</CreatedByClientVersion>
+  <MinClientVersion>3.20071.23.0</MinClientVersion>
+  <Tags>{"primaryDeviceWidth":"640","primaryDeviceHeight":"1136","sienaVersion":"20200728T150039Z-3.20071.23.0","deviceCapabilities":"","supportsPortrait":"true","supportsLandscape":"false","primaryFormFactor":"Phone","publisherVersion":"3.20071.23","minimumRequiredApiVersion":"2.2.0","hasComponent":"false","hasUnlockedComponent":"false","isUnifiedRootApp":"false"}</Tags>
+  <IsCdsUpgraded>0</IsCdsUpgraded>
+  <GalleryItemId xsi:nil="true"></GalleryItemId>
+  <BackgroundColor>rgba(0, 176, 240, 1)</BackgroundColor>
+  <DisplayName>COVidScreeningApp</DisplayName>
+  <Description></Description>
+  <CommitMessage></CommitMessage>
+  <Publisher></Publisher>
+  <AuthorizationReferences xsi:nil="true"></AuthorizationReferences>
+  <ConnectionReferences>{"d38c1e7b-0c3b-4dbf-8720-5fb12418acce":{"id":"/providers/microsoft.powerapps/apis/shared_covidscreeningapi-5f01015bb3e6d57fc8-5f4dba14982592dc78","displayName":"covidscreeningapi","iconUri":"https://az787822.vo.msecnd.net/defaulticons/api-dedicated.png","dataSources":["COVIDScreeningApi"],"dependencies":[],"dependents":[],"parameterHints":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard"}}</ConnectionReferences>
+  <DatabaseReferences>{"default.cds":{"databaseDetails":{"referenceType":"Environmental","environmentName":"default.cds"},"dataSources":{"43b0dc67-68af-47ae-9a9c-9e69d396ba3e":{"entitySetName":"msdyn_aimodels","logicalName":"msdyn_aimodel"}}}}</DatabaseReferences>
+  <CanvasAppType>0</CanvasAppType>
+  <BypassConsent>0</BypassConsent>
+  <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <CdsDependencies xsi:nil="true"></CdsDependencies>
+  <BackgroundImageUri>/CanvasApps/cr08b_covidscreeningappv2_b295b_BackgroundImageUri</BackgroundImageUri>
+  <DocumentUri>/CanvasApps/cr08b_covidscreeningappv2_b295b_DocumentUri.msapp</DocumentUri>
+</CanvasApp>
