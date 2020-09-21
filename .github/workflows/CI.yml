@@ -63,8 +63,10 @@ jobs:
         solution-file: 'out/CI/solutions/Covid19Screening.zip'
         force-overwrite: true
 
-    - name: List Covid19Screening solution
-      run: |
-        cmd /c "dir /s /ogen /b out\CI\solutions\Covid19Screening"
-
-
+    - name: branch-solution for Covid19Screening
+      # uses: microsoft/powerplatform-actions/branch-solution@v0
+      uses: ./microsoft/powerplatform-actions/branch-solution
+      with:
+        solution-folder: 'out/CI/solutions/Covid19Screening'
+        solution-target-folder: 'solutions/Covid19Screening'
+        token: ${{ secrets.GITHUB_TOKEN }}
