@@ -69,4 +69,4 @@ jobs:
       with:
         solution-folder: 'out/CI/solutions/Covid19Screening'
         solution-target-folder: 'solutions/Covid19Screening'
-        token: ${{ secrets.GITHUB_TOKEN }}
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
