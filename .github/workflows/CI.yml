@@ -63,10 +63,10 @@ jobs:
         solution-file: 'out/CI/solutions/ALMLab.zip'
         force-overwrite: true
 
-    - name: branch-solution for Covid19Screening
-      # uses: microsoft/powerplatform-actions/branch-solution@v0
-      uses: ./microsoft/powerplatform-actions/branch-solution
-      with:
-        solution-folder: 'out/CI/solutions/ALMLab'
-        solution-target-folder: 'solutions/ALMLab'
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+    # - name: branch-solution for Covid19Screening
+    #   # uses: microsoft/powerplatform-actions/branch-solution@v0
+    #   uses: ./microsoft/powerplatform-actions/branch-solution
+    #   with:
+    #     solution-folder: 'out/CI/solutions/ALMLab'
+    #     solution-target-folder: 'solutions/ALMLab'
+    #     repo-token: ${{ secrets.GITHUB_TOKEN }}
