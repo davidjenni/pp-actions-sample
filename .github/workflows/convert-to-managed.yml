@@ -1,8 +1,6 @@
 name: convert-to-managed
 
 on:
-  pull_request:
-    branches: [ main ]
   release:
     types: [created]
 
