@@ -1,6 +1,6 @@
 # Power Platform GitHub Actions Sample
 
-[GitHub Actions](https://help.github.com/en/actions) for Power Platform
+[GitHub Actions for Power Platform](https://github.com/microsoft/powerplatform-actions)
 
 ## Secrets
 
