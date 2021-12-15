@@ -18,14 +18,14 @@ jobs:
         lfs: true
 
     - name: who-am-i action
-      uses: microsoft/powerplatform-actions/who-am-i@v0.1.7
+      uses: microsoft/powerplatform-actions/who-am-i@v0
       with:
         environment-url: 'https://user9-dev.crm.dynamics.com/'
         user-name: 'user9@wrkdevops.onmicrosoft.com'
         password-secret: ${{ secrets.password }}
 
     - name: export-solution action
-      uses: microsoft/powerplatform-actions/export-solution@v0.1.7
+      uses: microsoft/powerplatform-actions/export-solution@v0
       with:
         environment-url: 'https://user9-dev.crm.dynamics.com/'
         user-name: 'user9@wrkdevops.onmicrosoft.com'
@@ -35,7 +35,7 @@ jobs:
         working-directory: 'out/CI'
 
     - name: unpack-solution action
-      uses: microsoft/powerplatform-actions/unpack-solution@v0.1.7
+      uses: microsoft/powerplatform-actions/unpack-solution@v0
       with:
         solution-file: 'out/CI/ALMLab.zip'
         solution-folder: 'out/CI/solutions/ALMLab'
@@ -43,14 +43,14 @@ jobs:
         overwrite-files: true
 
     - name: pack-solution action
-      uses: microsoft/powerplatform-actions/pack-solution@v0.1.7
+      uses: microsoft/powerplatform-actions/pack-solution@v0
       with:
         solution-folder: 'out/CI/solutions/ALMLab'
         solution-file: 'out/CI/solutions/ALMLab.zip'
         solution-type: 'Unmanaged'
 
     - name: import-solution action
-      uses: microsoft/powerplatform-actions/import-solution@v0.1.7
+      uses: microsoft/powerplatform-actions/import-solution@v0
       with:
         environment-url: 'https://user9-build.crm.dynamics.com/'
         user-name: 'user9@wrkdevops.onmicrosoft.com'
@@ -59,7 +59,7 @@ jobs:
         force-overwrite: true
 
     - name: branch-solution for Covid19Screening
-      uses: microsoft/powerplatform-actions/branch-solution@v0.1.7
+      uses: microsoft/powerplatform-actions/branch-solution@v0
       with:
         solution-folder: 'out/CI/solutions/ALMLab'
         solution-target-folder: 'solutions/ALMLab'
