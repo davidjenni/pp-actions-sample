@@ -25,8 +25,14 @@ jobs:
       with:
         lfs: true
 
+    - name: actions on runner
+      run: tree -d -L 3 /home/runner/work/_actions/microsoft
+
+    - name: show yaml
+      run: ls /home/runner/work/_actions/microsoft/powerplatform-actions/8ba95505ed62b2f34974e440ce908f927e24beff/create-environment/
+
     - name: create ephemeral test environment
-      uses: microsoft/powerplatform-actions/create-environment@v0
+      uses: microsoft/powerplatform-actions/create-environment@8ba95505ed62b2f34974e440ce908f927e24beff
       id: test-environment
       env:
         PP_SRC_ENV_NAME: ${{ format('dj-sample-{0}', runner.os) }}
@@ -40,7 +46,7 @@ jobs:
         domain: ${{ env.PP_SRC_ENV_NAME }}
 
     - name: who-am-i
-      uses: microsoft/powerplatform-actions/who-am-i@v0
+      uses: microsoft/powerplatform-actions/who-am-i@8ba95505ed62b2f34974e440ce908f927e24beff
       with:
         app-id: ${{ env.WF_APPID }}
         tenant-id: ${{ env.WF_TENANT_ID }}
@@ -48,14 +54,14 @@ jobs:
         environment-url: ${{ steps.test-environment.outputs.environment-url }}
 
     - name: pack-solution
-      uses: microsoft/powerplatform-actions/pack-solution@v0
+      uses: microsoft/powerplatform-actions/pack-solution@8ba95505ed62b2f34974e440ce908f927e24beff
       with:
         solution-folder: 'solutions/Covid19Screening-staged'
         solution-file: out/CI/solutions/Covid19Screening.zip
         solution-type: 'Unmanaged'
 
     - name: import-solution
-      uses: microsoft/powerplatform-actions/import-solution@v0
+      uses: microsoft/powerplatform-actions/import-solution@8ba95505ed62b2f34974e440ce908f927e24beff
       with:
         app-id: ${{ env.WF_APPID }}
         tenant-id: ${{ env.WF_TENANT_ID }}
@@ -65,7 +71,7 @@ jobs:
         force-overwrite: true
 
     - name: export-solution action
-      uses: microsoft/powerplatform-actions/export-solution@v0
+      uses: microsoft/powerplatform-actions/export-solution@8ba95505ed62b2f34974e440ce908f927e24beff
       with:
         app-id: ${{ env.WF_APPID }}
         tenant-id: ${{ env.WF_TENANT_ID }}
@@ -75,18 +81,18 @@ jobs:
         managed: true
         solution-output-file: out/ship/Covid19Screening.zip
 
-    - name: delete-solution
-      uses: microsoft/powerplatform-actions/delete-solution@v0
-      with:
-        app-id: ${{ env.WF_APPID }}
-        tenant-id: ${{ env.WF_TENANT_ID }}
-        client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
-        environment-url: ${{ steps.test-environment.outputs.environment-url }}
-        solution-name: ALMLab
+    # - name: delete-solution
+    #   uses: microsoft/powerplatform-actions/delete-solution@8ba95505ed62b2f34974e440ce908f927e24beff
+    #   with:
+    #     app-id: ${{ env.WF_APPID }}
+    #     tenant-id: ${{ env.WF_TENANT_ID }}
+    #     client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
+    #     environment-url: ${{ steps.test-environment.outputs.environment-url }}
+    #     solution-name: ALMLab
 
     - name: delete ephemeral test environment
       if: always() # Clean up created environments even on failed run
-      uses: microsoft/powerplatform-actions/delete-environment@v0
+      uses: microsoft/powerplatform-actions/delete-environment@8ba95505ed62b2f34974e440ce908f927e24beff
       with:
         app-id: ${{ env.WF_APPID }}
         tenant-id: ${{ env.WF_TENANT_ID }}
