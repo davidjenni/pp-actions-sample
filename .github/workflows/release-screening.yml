@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RUNNER_DEBUG: 1
+      WF_USERNAME: davidjen@ppdevtools.onmicrosoft.com
+      # set repo secret with password: PASSWORD_PPDEVTOOLS
       WF_APPID: 8a7729e0-2b71-4919-a89a-c789d0a9720a
       WF_TENANT_ID: 3041a058-5110-495a-a575-b2a5571d9eac
       # set repo secret with appID's client secret: CLIENT_SECRET_PPDEVTOOLS
@@ -25,9 +27,11 @@ jobs:
       env:
         PP_SRC_ENV_NAME: ${{ format('dj-rel-{0}', runner.os) }}
       with:
-        app-id: ${{ env.WF_APPID }}
-        tenant-id: ${{ env.WF_TENANT_ID }}
-        client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
+        user-name: ${{ env.WF_USERNAME }}
+        password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
+        # app-id: ${{ env.WF_APPID }}
+        # tenant-id: ${{ env.WF_TENANT_ID }}
+        # client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
         name: ${{ env.PP_SRC_ENV_NAME }}
         type: Sandbox
         region: unitedstates
@@ -43,9 +47,12 @@ jobs:
     - name: Import solution as unmanaged to build env
       uses: microsoft/powerplatform-actions/import-solution@v0
       with:
-        app-id: ${{ env.WF_APPID }}
-        tenant-id: ${{ env.WF_TENANT_ID }}
-        client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
+        user-name: ${{ env.WF_USERNAME }}
+        password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
+        # app-id: ${{ env.WF_APPID }}
+        # tenant-id: ${{ env.WF_TENANT_ID }}
+        # client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
+        environment-url: ${{ steps.test-environment.outputs.environment-url }}
         solution-file: out/CI/solutions/Covid19Screening.zip
         force-overwrite: true
         publish-changes: true
@@ -53,12 +60,26 @@ jobs:
     - name: Export solution as managed
       uses: microsoft/powerplatform-actions/export-solution@v0
       with:
-        app-id: ${{ env.WF_APPID }}
-        tenant-id: ${{ env.WF_TENANT_ID }}
-        client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
+        user-name: ${{ env.WF_USERNAME }}
+        password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
+        # app-id: ${{ env.WF_APPID }}
+        # tenant-id: ${{ env.WF_TENANT_ID }}
+        # client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
+        environment-url: ${{ steps.test-environment.outputs.environment-url }}
         solution-name: Covid19Screening
         managed: true
         solution-output-file: out/ship/Covid19Screening.zip
+
+    - name: delete ephemeral test environment
+      if: always() # Clean up created environments even on failed run
+      uses: microsoft/powerplatform-actions/delete-environment@v0
+      with:
+        user-name: ${{ env.WF_USERNAME }}
+        password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
+        # app-id: ${{ env.WF_APPID }}
+        # tenant-id: ${{ env.WF_TENANT_ID }}
+        # client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
+        environment-url: ${{ steps.test-environment.outputs.environment-url }}
 
     - name: Upload the ready to ship solution to GH artifact store
       uses: actions/upload-artifact@v2
