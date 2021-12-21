@@ -1,46 +1,85 @@
 name: release-screening-solution
 
 on:
+  workflow_dispatch:    # allow for manual workflow triggering as needed
   release:
     types: [created]
 
 jobs:
   convert-to-managed:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     env:
       RUNNER_DEBUG: 1
+      WF_USERNAME: davidjen@ppdevtools.onmicrosoft.com
+      # set repo secret with password: PASSWORD_PPDEVTOOLS
+      WF_APPID: 8a7729e0-2b71-4919-a89a-c789d0a9720a
+      WF_TENANT_ID: 3041a058-5110-495a-a575-b2a5571d9eac
+      # set repo secret with appID's client secret: CLIENT_SECRET_PPDEVTOOLS
 
     steps:
     - uses: actions/checkout@v2
       with:
         lfs: true
 
+    - name: create ephemeral test environment
+      uses: microsoft/powerplatform-actions/create-environment@v0
+      id: test-environment
+      env:
+        PP_SRC_ENV_NAME: ${{ format('dj-rel-{0}', runner.os) }}
+      with:
+        user-name: ${{ env.WF_USERNAME }}
+        password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
+        # app-id: ${{ env.WF_APPID }}
+        # tenant-id: ${{ env.WF_TENANT_ID }}
+        # client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
+        name: ${{ env.PP_SRC_ENV_NAME }}
+        type: Sandbox
+        region: unitedstates
+        domain: ${{ env.PP_SRC_ENV_NAME }}
+
     - name: Pack solution
-      uses: microsoft/powerplatform-actions/pack-solution@v0.1.7
+      uses: microsoft/powerplatform-actions/pack-solution@v0
       with:
         solution-folder: 'solutions/Covid19Screening-staged'
         solution-file: out/CI/solutions/Covid19Screening.zip
         solution-type: Unmanaged
 
     - name: Import solution as unmanaged to build env
-      uses: microsoft/powerplatform-actions/import-solution@v0.1.7
+      uses: microsoft/powerplatform-actions/import-solution@v0
       with:
-        environment-url: 'https://user9-build.crm.dynamics.com/'
-        user-name: 'user9@wrkdevops.onmicrosoft.com'
-        password-secret: ${{ secrets.password }}
+        user-name: ${{ env.WF_USERNAME }}
+        password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
+        # app-id: ${{ env.WF_APPID }}
+        # tenant-id: ${{ env.WF_TENANT_ID }}
+        # client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
+        environment-url: ${{ steps.test-environment.outputs.environment-url }}
         solution-file: out/CI/solutions/Covid19Screening.zip
         force-overwrite: true
         publish-changes: true
 
     - name: Export solution as managed
-      uses: microsoft/powerplatform-actions/export-solution@v0.1.7
+      uses: microsoft/powerplatform-actions/export-solution@v0
       with:
-        environment-url: 'https://user9-build.crm.dynamics.com/'
-        user-name: 'user9@wrkdevops.onmicrosoft.com'
-        password-secret: ${{ secrets.password }}
+        user-name: ${{ env.WF_USERNAME }}
+        password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
+        # app-id: ${{ env.WF_APPID }}
+        # tenant-id: ${{ env.WF_TENANT_ID }}
+        # client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
+        environment-url: ${{ steps.test-environment.outputs.environment-url }}
         solution-name: Covid19Screening
         managed: true
         solution-output-file: out/ship/Covid19Screening.zip
+
+    - name: delete ephemeral test environment
+      if: always() # Clean up created environments even on failed run
+      uses: microsoft/powerplatform-actions/delete-environment@v0
+      with:
+        user-name: ${{ env.WF_USERNAME }}
+        password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
+        # app-id: ${{ env.WF_APPID }}
+        # tenant-id: ${{ env.WF_TENANT_ID }}
+        # client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
+        environment-url: ${{ steps.test-environment.outputs.environment-url }}
 
     - name: Upload the ready to ship solution to GH artifact store
       uses: actions/upload-artifact@v2
@@ -50,7 +89,7 @@ jobs:
 
   release-to-staging:
     needs: [ convert-to-managed ]
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     env:
       RUNNER_DEBUG: 1
 
@@ -65,7 +104,8 @@ jobs:
         name: managedSolutions
         path: out/release/
 
-    - run: get-childitem .\out\release\
+    - name: show release folder content
+      run: tree -d ./out/release/
 
     # - name: Import solution to staging env
     #   uses: microsoft/powerplatform-actions/import-solution@v0.1.7
