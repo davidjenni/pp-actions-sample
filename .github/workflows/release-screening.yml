@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RUNNER_DEBUG: 1
+      WF_CLOUD: Public
       WF_USERNAME: davidjen@ppdevtools.onmicrosoft.com
       # set repo secret with password: PASSWORD_PPDEVTOOLS
       WF_APPID: 8a7729e0-2b71-4919-a89a-c789d0a9720a
@@ -27,6 +28,7 @@ jobs:
       env:
         PP_SRC_ENV_NAME: ${{ format('dj-rel-{0}', runner.os) }}
       with:
+        cloud: ${{ env.WF_CLOUD }}
         user-name: ${{ env.WF_USERNAME }}
         password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
         # app-id: ${{ env.WF_APPID }}
@@ -47,6 +49,7 @@ jobs:
     - name: Import solution as unmanaged to build env
       uses: microsoft/powerplatform-actions/import-solution@v0
       with:
+        cloud: ${{ env.WF_CLOUD }}
         user-name: ${{ env.WF_USERNAME }}
         password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
         # app-id: ${{ env.WF_APPID }}
@@ -60,6 +63,7 @@ jobs:
     - name: Export solution as managed
       uses: microsoft/powerplatform-actions/export-solution@v0
       with:
+        cloud: ${{ env.WF_CLOUD }}
         user-name: ${{ env.WF_USERNAME }}
         password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
         # app-id: ${{ env.WF_APPID }}
@@ -74,6 +78,7 @@ jobs:
       if: always() # Clean up created environments even on failed run
       uses: microsoft/powerplatform-actions/delete-environment@v0
       with:
+        cloud: ${{ env.WF_CLOUD }}
         user-name: ${{ env.WF_USERNAME }}
         password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
         # app-id: ${{ env.WF_APPID }}

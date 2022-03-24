@@ -17,9 +17,10 @@ jobs:
       fail-fast: false
     env:
       RUNNER_DEBUG: 1
-      WF_CLOUD: UsGovDod
+      WF_CLOUD: Public
 
-      WF_USERNAME: mstest_dataverse@testtestdodvalidation.onmicrosoft.us
+      WF_USERNAME: davidjen@ppdevtools.onmicrosoft.com
+      # WF_USERNAME: mstest_dataverse@testtestdodvalidation.onmicrosoft.us
       # set repo secret with password: PASSWORD_PPDEVTOOLS
 
       # WF_APPID: 8a7729e0-2b71-4919-a89a-c789d0a9720a
@@ -32,7 +33,7 @@ jobs:
         lfs: true
 
     - name: create ephemeral test environment
-      uses: microsoft/powerplatform-actions/create-environment@d80136bf425c8cd66db9f5a774bb7b8ebecfb76c
+      uses: microsoft/powerplatform-actions/create-environment@v0
       id: test-environment
       env:
         PP_SRC_ENV_NAME: ${{ format('dj-sample-{0}', runner.os) }}
@@ -49,29 +50,29 @@ jobs:
         domain: ${{ env.PP_SRC_ENV_NAME }}
 
     - name: who-am-i
-      uses: microsoft/powerplatform-actions/who-am-i@d80136bf425c8cd66db9f5a774bb7b8ebecfb76c
+      uses: microsoft/powerplatform-actions/who-am-i@v0
       with:
         cloud: ${{ env.WF_CLOUD }}
         user-name: ${{ env.WF_USERNAME }}
-        password-secret: ${{ secrets.PASSWORD_DOD }}
+        password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
         # app-id: ${{ env.WF_APPID }}
         # tenant-id: ${{ env.WF_TENANT_ID }}
         # client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
         environment-url: ${{ steps.test-environment.outputs.environment-url }}
 
     - name: pack-solution
-      uses: microsoft/powerplatform-actions/pack-solution@d80136bf425c8cd66db9f5a774bb7b8ebecfb76c
+      uses: microsoft/powerplatform-actions/pack-solution@v0
       with:
         solution-folder: 'solutions/Covid19Screening-staged'
         solution-file: out/CI/solutions/Covid19Screening.zip
         solution-type: 'Unmanaged'
 
     - name: import-solution
-      uses: microsoft/powerplatform-actions/import-solution@d80136bf425c8cd66db9f5a774bb7b8ebecfb76c
+      uses: microsoft/powerplatform-actions/import-solution@v0
       with:
         cloud: ${{ env.WF_CLOUD }}
         user-name: ${{ env.WF_USERNAME }}
-        password-secret: ${{ secrets.PASSWORD_DOD }}
+        password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
         # app-id: ${{ env.WF_APPID }}
         # tenant-id: ${{ env.WF_TENANT_ID }}
         # client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
@@ -81,11 +82,11 @@ jobs:
         force-overwrite: true
 
     - name: export-solution action
-      uses: microsoft/powerplatform-actions/export-solution@d80136bf425c8cd66db9f5a774bb7b8ebecfb76c
+      uses: microsoft/powerplatform-actions/export-solution@v0
       with:
         cloud: ${{ env.WF_CLOUD }}
         user-name: ${{ env.WF_USERNAME }}
-        password-secret: ${{ secrets.PASSWORD_DOD }}
+        password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
         # app-id: ${{ env.WF_APPID }}
         # tenant-id: ${{ env.WF_TENANT_ID }}
         # client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
@@ -96,11 +97,11 @@ jobs:
         solution-output-file: out/ship/Covid19Screening.zip
 
     - name: delete-solution
-      uses: microsoft/powerplatform-actions/delete-solution@d80136bf425c8cd66db9f5a774bb7b8ebecfb76c
+      uses: microsoft/powerplatform-actions/delete-solution@v0
       with:
         cloud: ${{ env.WF_CLOUD }}
         user-name: ${{ env.WF_USERNAME }}
-        password-secret: ${{ secrets.PASSWORD_DOD }}
+        password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
         # app-id: ${{ env.WF_APPID }}
         # tenant-id: ${{ env.WF_TENANT_ID }}
         # client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
@@ -109,7 +110,7 @@ jobs:
 
     - name: delete ephemeral test environment
       if: always() # Clean up created environments even on failed run
-      uses: microsoft/powerplatform-actions/delete-environment@d80136bf425c8cd66db9f5a774bb7b8ebecfb76c
+      uses: microsoft/powerplatform-actions/delete-environment@v0
       with:
         cloud: ${{ env.WF_CLOUD }}
         user-name: ${{ env.WF_USERNAME }}
