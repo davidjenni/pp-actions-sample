@@ -12,14 +12,19 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        # os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
       fail-fast: false
     env:
       RUNNER_DEBUG: 1
+      WF_CLOUD: Public
+
       WF_USERNAME: davidjen@ppdevtools.onmicrosoft.com
+      # WF_USERNAME: mstest_dataverse@testtestdodvalidation.onmicrosoft.us
       # set repo secret with password: PASSWORD_PPDEVTOOLS
-      WF_APPID: 8a7729e0-2b71-4919-a89a-c789d0a9720a
-      WF_TENANT_ID: 3041a058-5110-495a-a575-b2a5571d9eac
+
+      # WF_APPID: 8a7729e0-2b71-4919-a89a-c789d0a9720a
+      # WF_TENANT_ID: 3041a058-5110-495a-a575-b2a5571d9eac
       # set repo secret with appID's client secret: CLIENT_SECRET_PPDEVTOOLS
 
     steps:
@@ -33,6 +38,7 @@ jobs:
       env:
         PP_SRC_ENV_NAME: ${{ format('dj-sample-{0}', runner.os) }}
       with:
+        cloud: ${{ env.WF_CLOUD }}
         user-name: ${{ env.WF_USERNAME }}
         password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
         # app-id: ${{ env.WF_APPID }}
@@ -46,8 +52,10 @@ jobs:
     - name: who-am-i
       uses: microsoft/powerplatform-actions/who-am-i@v0
       with:
+        cloud: ${{ env.WF_CLOUD }}
         user-name: ${{ env.WF_USERNAME }}
-        password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}        # app-id: ${{ env.WF_APPID }}
+        password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
+        # app-id: ${{ env.WF_APPID }}
         # tenant-id: ${{ env.WF_TENANT_ID }}
         # client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
         environment-url: ${{ steps.test-environment.outputs.environment-url }}
@@ -62,6 +70,7 @@ jobs:
     - name: import-solution
       uses: microsoft/powerplatform-actions/import-solution@v0
       with:
+        cloud: ${{ env.WF_CLOUD }}
         user-name: ${{ env.WF_USERNAME }}
         password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
         # app-id: ${{ env.WF_APPID }}
@@ -69,11 +78,13 @@ jobs:
         # client-secret: ${{ secrets.CLIENT_SECRET_PPDEVTOOLS }}
         environment-url: ${{ steps.test-environment.outputs.environment-url }}
         solution-file: out/CI/solutions/Covid19Screening.zip
+        run-asynchronously: true
         force-overwrite: true
 
     - name: export-solution action
       uses: microsoft/powerplatform-actions/export-solution@v0
       with:
+        cloud: ${{ env.WF_CLOUD }}
         user-name: ${{ env.WF_USERNAME }}
         password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
         # app-id: ${{ env.WF_APPID }}
@@ -82,11 +93,13 @@ jobs:
         environment-url: ${{ steps.test-environment.outputs.environment-url }}
         solution-name: Covid19Screening
         managed: true
+        run-asynchronously: true
         solution-output-file: out/ship/Covid19Screening.zip
 
     - name: delete-solution
       uses: microsoft/powerplatform-actions/delete-solution@v0
       with:
+        cloud: ${{ env.WF_CLOUD }}
         user-name: ${{ env.WF_USERNAME }}
         password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
         # app-id: ${{ env.WF_APPID }}
@@ -99,6 +112,7 @@ jobs:
       if: always() # Clean up created environments even on failed run
       uses: microsoft/powerplatform-actions/delete-environment@v0
       with:
+        cloud: ${{ env.WF_CLOUD }}
         user-name: ${{ env.WF_USERNAME }}
         password-secret: ${{ secrets.PASSWORD_PPDEVTOOLS }}
         # app-id: ${{ env.WF_APPID }}
