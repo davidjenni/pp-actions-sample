@@ -30,7 +30,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        lfs: true
+        lfs: false
 
     - name: create ephemeral test environment
       uses: microsoft/powerplatform-actions/create-environment@v0
